@@ -32,8 +32,11 @@ def configured_provider(Settings):
     else:
         raise Exception('invalid provider.')
 
-    provider = _provider(network=Settings.network)
-    set_up()
+    if Settings.provider.lower() != "rpcnode":
+        provider = _provider(network=Settings.network)
+    else:
+        provider = _provider(testnet=Settings.testnet, username=Settings.rpcuser, password=Settings.rpcpassword, ip=None, port=Settings.rpcport, directory=None)
+    set_up(provider)
 
     return provider
 
